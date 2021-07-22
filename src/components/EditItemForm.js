@@ -15,7 +15,12 @@ class EditItemForm extends React.Component {
     }
 
     update = () => {
+        let updatedItem = {
+            id: this.props.editItem.id,
+            ...this.state
+        }
 
+        this.props.updateItem(updatedItem);
     }
 
     render() {

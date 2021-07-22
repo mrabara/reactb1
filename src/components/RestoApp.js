@@ -151,6 +151,18 @@ class RestoApp extends React.Component {
         });
     }
 
+    updateItem = (item) => {
+        let itemsCopy = [...this.state.items];
+
+        let index = itemsCopy.findIndex(i => i.id === item.id);
+        itemsCopy[index] = item;
+
+        this.setState({
+            items: itemsCopy,
+            editItem: null
+        });
+    }
+
     render() {
         let items = this.state.filter === 'All' ?
             this.state.items :
@@ -179,7 +191,7 @@ class RestoApp extends React.Component {
             <div>
                 {/* <AddItemForm addItem={this.addItem} /> */}
                 {this.state.editItem ?
-                    <EditItemForm editItem={this.state.editItem} /> : null
+                    <EditItemForm editItem={this.state.editItem} updateItem={this.updateItem} /> : null
                 }
                 <div>
                     <button onClick={() => this.changeDisplay('All')}>All</button>
