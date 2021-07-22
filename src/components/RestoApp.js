@@ -1,6 +1,7 @@
 import { directive } from '@babel/types';
 import React from 'react';
 import AddItemForm from './AddItemForm';
+import EditItemForm from './EditItemForm';
 import ItemBox from './ItemBox';
 import './RestoApp.css';
 
@@ -76,7 +77,8 @@ class RestoApp extends React.Component {
                 status: 'active',
                 image: "https://image.flaticon.com/icons/svg/1046/1046785.svg"
             },
-        ]
+        ],
+        editItem: null
     }
 
     changeDisplay = (category) => {
@@ -99,6 +101,56 @@ class RestoApp extends React.Component {
         })
     }
 
+    addToCart = (item) => {
+        let cartCopy = [...this.state.cart];
+
+        let index = cartCopy.findIndex(cartItem => cartItem.id === item.id)
+        if (index === -1) {
+            item.quantity = 1;
+            cartCopy.push(item);
+        } else {
+            cartCopy[index].quantity++;
+        }
+
+        this.setState({
+            cart: cartCopy
+        });
+
+        // let exists = false;
+        // cartCopy.forEach(cartItem => {
+        //     if (cartItem.id === item.id) {
+        //         exists = true;
+
+        //         cartItem.quantity++;
+        //     }
+        // });
+
+        // if (!exists) {
+        //     item.quantity = 1;
+        //     cartCopy.push(item);
+        // }
+
+        // this.setState({
+        //     cart: cartCopy
+        // });
+    }
+
+    deleteItem = (item) => {
+        let itemsCopy = [...this.state.items];
+
+        itemsCopy = itemsCopy.filter(i => i.id !== item.id)
+
+        this.setState({
+            items: itemsCopy
+        });
+    }
+
+    editItem = (item) => {
+        this.setState({
+            editItem: item
+        });
+    }
+
     render() {
         let items = this.state.filter === 'All' ?
             this.state.items :
@@ -106,12 +158,18 @@ class RestoApp extends React.Component {
 
         let itemsDisplay = items
             .map(item =>
-                <ItemBox key={item.id} item={item} />
+                <ItemBox
+                    key={item.id}
+                    item={item}
+                    addToCart={this.addToCart}
+                    deleteItem={this.deleteItem}
+                    editItem={this.editItem}
+                />
             )
 
         let cartDisplay = this.state.cart
             .map(item => {
-                return <div>
+                return <div key={item.id}>
                     <img className="cart-img" src={item.image} alt={item.name} width={25} />
                     x {item.quantity}
                 </div>
@@ -119,7 +177,10 @@ class RestoApp extends React.Component {
 
         return (
             <div>
-                <AddItemForm addItem={this.addItem} />
+                {/* <AddItemForm addItem={this.addItem} /> */}
+                {this.state.editItem ?
+                    <EditItemForm editItem={this.state.editItem} /> : null
+                }
                 <div>
                     <button onClick={() => this.changeDisplay('All')}>All</button>
                     <button onClick={() => this.changeDisplay('Food')}>Food</button>

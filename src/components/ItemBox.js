@@ -3,7 +3,15 @@ import './ItemBox.css';
 
 class ItemBox extends React.Component {
     orderClickHandler = () => {
-        alert(this.props.item.name);
+        this.props.addToCart(this.props.item);
+    }
+
+    deleteBtnClickHandler = () => {
+        this.props.deleteItem(this.props.item);
+    }
+
+    editBtnClickHandler = () => {
+        this.props.editItem(this.props.item);
     }
 
     render() {
@@ -17,6 +25,8 @@ class ItemBox extends React.Component {
                     <small>{category}</small> <br />
                     <p>Php {price}</p>
                     <button onClick={this.orderClickHandler}>Order</button>
+                    <button onClick={this.editBtnClickHandler}>Edit</button>
+                    <button onClick={this.deleteBtnClickHandler}>Delete</button>
                 </div>
             </div>
         );
