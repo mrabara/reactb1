@@ -189,10 +189,7 @@ class RestoApp extends React.Component {
 
         return (
             <div>
-                {/* <AddItemForm addItem={this.addItem} /> */}
-                {this.state.editItem ?
-                    <EditItemForm editItem={this.state.editItem} updateItem={this.updateItem} /> : null
-                }
+                <AddItemForm addItem={this.addItem} editItem={this.state.editItem} updateItem={this.updateItem} />
                 <div>
                     <button onClick={() => this.changeDisplay('All')}>All</button>
                     <button onClick={() => this.changeDisplay('Food')}>Food</button>

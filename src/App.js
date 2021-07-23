@@ -1,3 +1,6 @@
+// hook
+import { useState } from 'react';
+
 // import logo from './logo.svg';
 import './App.css';
 // import HelloWorld from './components/HelloWorld';
@@ -6,11 +9,13 @@ import PokemonsDisplay from './components/PokemonsDisplay';
 import RestoApp from './components/RestoApp';
 
 function App() {
-  let players = [
+  const [players, setPlayers] = useState([
     { name: 'Jordan', number: 23 },
     { name: 'James', number: 23 },
     { name: 'Bryant', number: 24 },
-  ];
+  ]);
+
+  const [count, setCount] = useState(0);
 
   let pokemons = [
     {
@@ -33,10 +38,15 @@ function App() {
     }
   ];
 
+  let playersDisplay = players.map(player => <Player playerName={player.name} number={player.number} />)
+
 
   return (
     <div className="App">
       <header className="App-header">
+        <button onClick={() => setCount(count - 1)}>-</button>
+        {count} <button onClick={() => setCount(count + 1)}>+</button>
+        <hr />
         <RestoApp />
       </header>
     </div>
