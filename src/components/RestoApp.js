@@ -5,6 +5,8 @@ import EditItemForm from './EditItemForm';
 import ItemBox from './ItemBox';
 import './RestoApp.css';
 
+import { Route, Link } from 'react-router-dom';
+
 class RestoApp extends React.Component {
     state = {
         items: [
@@ -189,22 +191,30 @@ class RestoApp extends React.Component {
 
         return (
             <div>
-                <AddItemForm addItem={this.addItem} editItem={this.state.editItem} updateItem={this.updateItem} />
-                <div>
-                    <button onClick={() => this.changeDisplay('All')}>All</button>
-                    <button onClick={() => this.changeDisplay('Food')}>Food</button>
-                    <button onClick={() => this.changeDisplay('Drink')}>Drink</button>
-                </div>
-                <h1>Resto App</h1>
-                <div className="display">
-                    <div id="RestoApp">
-                        {itemsDisplay}
+                <Link className="App-link" to="/restoapp/add">Add Item</Link> <br />
+                <Link className="App-link" to="/restoapp/cart">Cart</Link>
+                <Route path="/restoapp/add">
+                    <AddItemForm addItem={this.addItem} editItem={this.state.editItem} updateItem={this.updateItem} />
+                </Route>
+                <Route path="/restoapp/home">
+                    <div>
+                        <button onClick={() => this.changeDisplay('All')}>All</button>
+                        <button onClick={() => this.changeDisplay('Food')}>Food</button>
+                        <button onClick={() => this.changeDisplay('Drink')}>Drink</button>
                     </div>
+                    <h1>Resto App</h1>
+                    <div className="display">
+                        <div id="RestoApp">
+                            {itemsDisplay}
+                        </div>
+                    </div>
+                </Route>
+                <Route path="/restoapp/cart">
                     <div className="CartDisplay">
                         <h2>Cart</h2>
                         {cartDisplay}
                     </div>
-                </div>
+                </Route>
             </div>
         );
     }
